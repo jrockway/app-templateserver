@@ -1,16 +1,12 @@
 use inc::Module::Install;
 
-my $module = 'App::TemplateServer';
+name 'App::TemplateServer';
+all_from 'lib/App/TemplateServer.pm';
+license 'Perl';
 
-my $dist   = $module;
-$dist =~ s/::/-/g;
-name($dist);
+requires 'HTTP::Daemon';
+requires 'Template';
 
-my @path = split '::', $module;
-all_from('lib/'. (join '/',@path). '.pm');
-
-build_requires 'Catalyst::Runtime';
-build_requires 'Test::WWW::Mechanize::Catalyst';
 build_requires 'Test::More';
 build_requires 'ok';
 
