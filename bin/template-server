@@ -1,0 +1,4 @@
+#!/usr/bin/env perl
+
+use App::TemplateServer;
+App::TemplateServer->new_with_options->run;
