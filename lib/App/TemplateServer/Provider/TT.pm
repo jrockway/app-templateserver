@@ -13,22 +13,61 @@ has 'engine' => (
     lazy    => 1,
 );
 
+has 'file_filter' => (
+    is       => 'ro',
+    isa      => 'RegexpRef',
+    required => 1,
+    default  => sub { qr/[.]tt2?$/ },
+);
+
 sub list_templates {
     my $self = shift;
     my $docroot = $self->docroot;
     
     my @files;
-    find(sub { push @files, File::Spec->abs2rel($File::Find::name, $docroot) },
+    my $file_filter = $self->file_filter;
+    find(sub { 
+             my $name = $File::Find::name;
+             push @files, File::Spec->abs2rel($name, $docroot) 
+               if -f $name && $name =~ /$file_filter/;
+         },
          $docroot);
+    
     return @files;
 }
 
 sub render_template {
     my ($self, $template, $context) = @_;
     my $out;
-    $self->engine->process($template, {}, \$out)
+    $self->engine->process($template, $context->data, \$out)
       or die "Failed to render: ". $self->engine->error;
     return $out;
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+App::TemplateServer::Provider::TT - Template Toolkit template provider for App::TemplateServer
+
+=head1 SYNOPSIS
+
+   my $provider = App::TemplateServer::Provider::TT->new( 
+       docroot => '/path/to/TT/templates'
+   );
+ 
+   my @templates = $provider->list_templates;
+   my $foo = $provider->render_template('/what/ever/foo.tt');
+
+=head1 METHODS
+
+These methods implement the C<App::TemplateServer::Provider> role.
+
+=head2 list_templates
+
+=head2 render_template
+
+
+
