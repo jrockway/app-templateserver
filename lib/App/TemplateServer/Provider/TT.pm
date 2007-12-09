@@ -13,23 +13,26 @@ has 'engine' => (
     lazy    => 1,
 );
 
-has 'file_filter' => (
-    is       => 'ro',
-    isa      => 'RegexpRef',
-    required => 1,
-    default  => sub { qr/[.]tt2?$/ },
-);
+#
+# can't think of a good way to pass this in, so just ignore for now
+#
+#has 'file_filter' => (
+#    is       => 'ro',
+#    isa      => 'RegexpRef',
+#    required => 1,
+#    default  => sub { qr/[.]tt2?$/ },
+#);
 
 sub list_templates {
     my $self = shift;
     my $docroot = $self->docroot;
     
     my @files;
-    my $file_filter = $self->file_filter;
+    #my $file_filter = $self->file_filter;
     find(sub { 
              my $name = $File::Find::name;
              push @files, File::Spec->abs2rel($name, $docroot) 
-               if -f $name && $name =~ /$file_filter/;
+               if -f $name; # && $name =~ /$file_filter/;
          },
          $docroot);
     
