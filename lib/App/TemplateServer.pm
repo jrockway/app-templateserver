@@ -207,13 +207,100 @@ App::TemplateServer - application to serve processed templates
 
 =head1 SYNOPSIS
 
+   template-server --docroot project/templates --data project/test_data.yml
+
+=head1 DESCRIPTION
+
+Occasionally you need to give HTML templates to someone to edit
+without setting up a full perl environment for them.  You can use this
+application to serve templates to the browser and provide those
+templates with sample data to operate on.  The template editor will
+need Perl, but not a database, Apache, Catalyst, etc.  (You can build
+a PAR and then they won't need Perl either.)
+
+It's also useful for experimenting with new templating engines.  You
+can start writing templates right away, without having to setup Apache
+or a Catalyst application first.  Interfacing C<App::TemplateServer>
+to a new templating system is a quick matter of writing a few lines of
+code.  (See L<App::TemplateServer::Provider> for details.)
+
+As a user, you'll be interacting with C<App::TemplateServer> via the
+included C<template-server> script.
+
+=head1 METHODS
+
+=head2 run
+
+Start the server.  This method never returns.
+
+=head1 ATTRIBUTES
+
+=head2 port
+
+The port to bind the server to.  Defaults to 4000.
+
+=head2 docroot
+
+The directory containing templates.  Defaults to the current
+directory.
+
+=head2 provider_class
+
+The class name of the Provider to use.  Defaults to
+C<App::TemplateServer::Provider::TT>, but you can get others from the
+CPAN (for using templating systems other than TT).
+
+=head2 datafile
+
+The YAML file containing the package and variable definitions.  For
+example:
+
+    ---
+    foo: "bar"
+    packages:
+      Test:
+        constructors: ["new"]
+        methods:
+          map_foo_bar:
+            - ["foo"]
+            - "bar"
+            - ["bar"]
+            - "foo"
+            - "INVALID INPUT"
+    instantiate:
+      test_instance: "Test"
+      another_test_instance:
+        - Test: "new"
+
+This makes the variables C<foo>, C<test_instance>, and
+C<another_test_instance> available in the templates.  It also creates
+a package called C<Test> and adds a constructor called C<new>, and a
+method called C<map_foo_bar> that returns "bar" when the argument is
+"foo", "foo" when the argument is "bar", and "INVALID INPUT"
+otherwise.
+
+=head3 DESCRIPTION
+
+Any key/value pair other than C<packages> and C<instantiate> is
+treated as a literal variable to make available in the template.
+
+C<packages> is passed to L<Package::FromData> and is used to
+dynamically create data, methods, static methods, and constructors
+inside packages.  See L<Package::FromData> for more details.
+
+C<instantiate> is a list of variables to populate with instantiated
+classes.  The key is the variable name, the value is either a class
+name to call new on, or a hash containing a single key/value pair
+which is treated like C<< class => method >>.  This allows you to use
+the constructors that L<Package::FromData> made for you.
+
 =head1 AUTHOR
 
 Jonathan Rockway C<< <jrockway@cpan.org> >>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2007 Jonathan Rockway.  You may redistribute this module
+Copyright (c) 2008 Jonathan Rockway.  You may redistribute this module
 under the same terms as Perl itself.
 
 

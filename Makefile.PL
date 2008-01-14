@@ -16,4 +16,6 @@ build_requires 'Directory::Scratch';
 build_requires 'Test::More';
 build_requires 'ok';
 
+install_script 'bin/template-server';
+
 WriteAll();
