@@ -3,6 +3,7 @@ use Moose;
 use File::Find;
 use File::Spec;
 use Template;
+use Method::Signatures;
 
 with 'App::TemplateServer::Provider';
 
@@ -23,8 +24,7 @@ has 'engine' => (
 #    default  => sub { qr/[.]tt2?$/ },
 #);
 
-sub list_templates {
-    my $self = shift;
+method list_templates {
     my $docroot = $self->docroot;
     
     my @files;
@@ -37,15 +37,14 @@ sub list_templates {
          $docroot);
     
     return @files;
-}
+};
 
-sub render_template {
-    my ($self, $template, $context) = @_;
+method render_template($template, $context) {
     my $out;
     $self->engine->process($template, $context->data, \$out)
       or die "Failed to render: ". $self->engine->error;
     return $out;
-}
+};
 
 1;
 

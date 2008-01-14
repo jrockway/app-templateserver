@@ -1,5 +1,6 @@
 package App::TemplateServer::Page::Index;
 use Moose;
+use Method::Signatures;
 
 with 'App::TemplateServer::Page';
 
@@ -7,9 +8,7 @@ has '+match_regex' => (
     default => qr{^/(?:index(?:html?)?)?$},
 );
 
-sub render {
-    my $self = shift;
-    my $ctx  = shift;
+method render($ctx) {
     my $base = $ctx->server->url;
     $base =~ s{/$}{};
     
@@ -32,6 +31,6 @@ END
 END
     
     return "$head$content$foot\n";
-}
+};
 
 1;
