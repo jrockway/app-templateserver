@@ -17,6 +17,7 @@ use App::TemplateServer::Context;
 
 use Package::FromData;
 use Method::Signatures;
+use URI::Escape;
 use YAML::Syck qw(LoadFile);
 
 our $VERSION = '0.01';
@@ -188,7 +189,7 @@ method _mk_context($req) {
 
 method _render_template($req) {
     my $context = $self->_mk_context($req);
-    my $template = $req->uri;
+    my $template = uri_unescape($req->uri->path);
     $template =~ s{^/}{};
     my $content = $self->provider->render_template($template, $context);
     return _success($content);

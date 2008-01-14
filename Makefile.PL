@@ -11,6 +11,7 @@ requires 'MooseX::Getopt';
 requires 'MooseX::Types::Path::Class';
 requires 'Package::FromData';
 requires 'Template';
+requires 'URI::Escape';
 requires 'YAML::Syck';
 build_requires 'Directory::Scratch';
 build_requires 'Test::More';
