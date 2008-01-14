@@ -82,7 +82,17 @@ has '_data' => (
 
 coerce 'ClassName'
   => as 'Str',
-  => via { Class::MOP::load_class($_) and $_ };
+  => via { # so much code for nothing.  oh well :)
+      my $loaded;
+      for ($_, "App::TemplateServer::Provider::$_"){
+          eval {
+              if(Class::MOP::load_class($_)){
+                  return $loaded = $_;
+              }
+          } and last;
+      }
+      return $loaded || die "failed to coerce $_ to a provider class";
+  };
 
 has 'provider_class' => (
     metaclass  => 'MooseX::Getopt::Meta::Attribute',
@@ -249,6 +259,12 @@ directory.
 The class name of the Provider to use.  Defaults to
 C<App::TemplateServer::Provider::TT>, but you can get others from the
 CPAN (for using templating systems other than TT).
+
+As of version 0.02, you can omit the
+C<App::TemplateServer::Provider::> prefix if you prefer.  The literal
+class you pass will be loaded first; if that fails then the
+C<App::TemplateServer::Provider::> prefix is added.  Failing that, an
+exception is thrown.
 
 =head2 datafile
 
