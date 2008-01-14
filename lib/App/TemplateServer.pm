@@ -81,7 +81,7 @@ has '_data' => (
 );
 
 coerce 'ClassName'
-  => as 'Str',
+  => as 'Str'
   => via { # so much code for nothing.  oh well :)
       my $loaded;
       for ($_, "App::TemplateServer::Provider::$_"){
