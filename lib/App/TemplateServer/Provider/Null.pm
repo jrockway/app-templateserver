@@ -10,7 +10,7 @@ method list_templates {
 };
 
 method render_template($template, $context){
-    my $data = Dump($context);
+    my $data = Dump({%$context, docroot => $self->docroot});
     $data =~ s/&/&amp;/g;
     $data =~ s/</&lt;/g;
     $data =~ s/>/&gt;/g;
@@ -36,8 +36,7 @@ to poke at.
 
 Try it out like this:
 
-  template-server --provider App::TemplateServer::Provider::Null \
-                  --data /path/to/some/yaml
+  template-server --provider Null --data /path/to/some/yaml
 
 Then visit C<http://localhost:4000/test> and you can see the YAML.
 
