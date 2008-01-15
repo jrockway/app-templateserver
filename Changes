@@ -1,3 +1,10 @@
+0.02    15 January 2008
+        - docroot is an arrayref now
+        - no need to specify provider as App::TemplateServer::Provider::,
+          it's implied
+        - unescape URI (server/foo%20bar.tt => "foo bar.tt")
+        - add Null provider (for testing)
+
 0.01    14 January 2008
         - very first version
           released upon the world
