@@ -1,12 +1,13 @@
 package App::TemplateServer::Provider;
 use Moose::Role;
-use MooseX::Types::Path::Class qw(Dir);
+use MooseX::Types::Path::Class;
 
 has 'docroot' => (
-    is       => 'ro',
-    isa      => Dir,
-    required => 1,
-    coerce   => 1,
+    is         => 'ro',
+    isa        => 'ArrayRef[Path::Class::Dir]',
+    required   => 1,
+    coerce     => 1,
+    auto_deref => 1,
 );
 
 requires 'list_templates';
@@ -32,8 +33,8 @@ This role provides the following attributes:
 
 =head2 docroot
 
-This is the directory where your templates that you are "providing"
-live.  It is required.
+This is a list of directories where your templates that you are
+"providing" live.
 
 =head1 REQUIRED METHODS
 

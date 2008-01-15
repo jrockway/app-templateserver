@@ -31,11 +31,15 @@ has 'port' => (
     default  => '4000',
 );
 
+coerce 'ArrayRef[Path::Class::Dir]' 
+  => as 'ArrayRef[Str]'
+  => via { [map { Path::Class::dir($_) } @$_] };
+
 has 'docroot' => (
     is       => 'ro',
-    isa      => Dir,
+    isa      => 'ArrayRef[Path::Class::Dir]',
+    default  => sub { [$ENV{PWD}] },
     coerce   => 1,
-    default  => sub { $ENV{PWD} },
     lazy     => 1,
 );
 

@@ -10,7 +10,7 @@ with 'App::TemplateServer::Provider';
 has 'engine' => (
     is      => 'ro',
     isa     => 'Template',
-    default => sub { Template->new({ INCLUDE_PATH => shift->docroot }) },
+    default => sub { Template->new({ INCLUDE_PATH => [shift->docroot] }) },
     lazy    => 1,
 );
 
@@ -25,16 +25,18 @@ has 'engine' => (
 #);
 
 method list_templates {
-    my $docroot = $self->docroot;
+    my @docroot = $self->docroot;
     
     my @files;
     #my $file_filter = $self->file_filter;
-    find(sub { 
-             my $name = $File::Find::name;
-             push @files, File::Spec->abs2rel($name, $docroot) 
-               if -f $name; # && $name =~ /$file_filter/;
-         },
-         $docroot);
+    for my $root (@docroot){
+        find(sub { 
+                 my $name = $File::Find::name;
+                 push @files, File::Spec->abs2rel($name, $root) 
+                   if -f $name; # && $name =~ /$file_filter/;
+             },
+             $root);
+    }
     
     return @files;
 };
