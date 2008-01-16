@@ -42,4 +42,10 @@ object for the request.
 
 =head1 SEE ALSO
 
+L<App::TemplateServer::Provider::Filesystem> - a role that provides some useful defaults for fs-based templating systems like TT or Mason.
+
+L<App::TemplateServer::Provider::TT> - a TT provider
+
+L<App::TemplateServer::Provider::Null> - a boring example provider
+
 L<App::TemplateServer|App::TemplateServer>
