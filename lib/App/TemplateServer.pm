@@ -3,7 +3,7 @@ use feature ':5.10';
 
 use Moose;
 use Moose::Util::TypeConstraints;
-use MooseX::Types::Path::Class qw(File Dir);
+use MooseX::Types::Path::Class qw(File);
 
 use HTTP::Daemon;
 use HTTP::Headers;
@@ -31,13 +31,9 @@ has 'port' => (
     default  => '4000',
 );
 
-coerce 'ArrayRef[Path::Class::Dir]' 
-  => as 'ArrayRef[Str]'
-  => via { [map { Path::Class::dir($_) } @$_] };
-
 has 'docroot' => (
     is       => 'ro',
-    isa      => 'ArrayRef[Path::Class::Dir]',
+    isa      => 'ArrayRef[Str]',
     default  => sub { [$ENV{PWD}] },
     coerce   => 1,
     lazy     => 1,

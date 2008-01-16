@@ -1,17 +1,15 @@
 package App::TemplateServer::Provider;
 use Moose::Role;
-use MooseX::Types::Path::Class;
 
 has 'docroot' => (
     is         => 'ro',
-    isa        => 'ArrayRef[Path::Class::Dir]',
+    isa        => 'ArrayRef[Defined]',
     required   => 1,
-    coerce     => 1,
     auto_deref => 1,
 );
 
-requires 'list_templates';
 requires 'render_template';
+requires 'list_templates';
 
 1;
 
@@ -19,22 +17,13 @@ __END__
 
 =head1 NAME
 
-App::TemplateServer::Provider - role that a Provider should do
+App::TemplateServer::Provider - role that a Provider should consume
 
 =head1 DESCRIPTION
 
 Template systems are interfaced with App::TemplateServer with this
 role.  The template server will call the methods required by this role
 to provider its functionality.
-
-=head1 ATTRIBUTES
-
-This role provides the following attributes:
-
-=head2 docroot
-
-This is a list of directories where your templates that you are
-"providing" live.
 
 =head1 REQUIRED METHODS
 
