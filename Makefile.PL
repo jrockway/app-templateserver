@@ -7,7 +7,7 @@ license 'Perl';
 requires 'HTTP::Daemon';
 requires 'List::Util';
 requires 'Method::Signatures';
-requires 'Moose';
+requires 'Moose' => '0.33';
 requires 'MooseX::Getopt';
 requires 'MooseX::Types::Path::Class';
 requires 'Package::FromData';
