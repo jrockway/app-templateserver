@@ -10,7 +10,7 @@ method list_templates {
 };
 
 method render_template($template, $context){
-    my $data = Dump({%$context, docroot => $self->docroot});
+    my $data = Dump({%$context, docroot => [$self->docroot]});
     $data =~ s/&/&amp;/g;
     $data =~ s/</&lt;/g;
     $data =~ s/>/&gt;/g;
