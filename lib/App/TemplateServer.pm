@@ -20,7 +20,7 @@ use Method::Signatures;
 use URI::Escape;
 use YAML::Syck qw(LoadFile);
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 our $AUTHORITY = 'cpan:JROCKWAY';
 
 with 'MooseX::Getopt';
