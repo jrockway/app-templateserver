@@ -15,6 +15,7 @@ requires 'Scalar::Util';
 requires 'Template';
 requires 'URI::Escape';
 requires 'YAML::Syck';
+build_requires 'Data::Dumper';
 build_requires 'Directory::Scratch';
 build_requires 'Test::More';
 build_requires 'ok';
