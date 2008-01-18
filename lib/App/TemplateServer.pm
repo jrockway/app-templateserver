@@ -1,4 +1,5 @@
 package App::TemplateServer;
+use 5.010;
 use feature ':5.10';
 
 use Moose;
@@ -20,7 +21,7 @@ use Method::Signatures;
 use URI::Escape;
 use YAML::Syck qw(LoadFile);
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 our $AUTHORITY = 'cpan:JROCKWAY';
 
 with 'MooseX::Getopt';

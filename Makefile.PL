@@ -1,5 +1,7 @@
 use inc::Module::Install;
 
+use 5.010;
+
 name 'App-TemplateServer';
 all_from 'lib/App/TemplateServer.pm';
 license 'Perl';
