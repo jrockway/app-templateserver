@@ -5,7 +5,7 @@ use Method::Signatures;
 with 'App::TemplateServer::Page';
 
 has '+match_regex' => (
-    default => qr{^/(?:index(?:html?)?)?$},
+    default => sub { qr{^/(?:index(?:html?)?)?$} },
 );
 
 method render($ctx) {
